@@ -12,3 +12,5 @@ export type CartProduct = Product & {
   setupAdded: boolean;
   total: number;
 };
+
+export type QuantityChangeEvent = { id: number; action: string };

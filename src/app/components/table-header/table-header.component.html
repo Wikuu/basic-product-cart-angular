@@ -1,0 +1,30 @@
+<div class="header">
+  <mat-form-field class="search-box" appearance="fill">
+    <mat-label>Enter part code or description</mat-label>
+    <input
+      type="text"
+      aria-label="Enter part code or description"
+      matInput
+      [formControl]="productAutocompleteControl"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      [displayWith]="displayProduct"
+      (optionSelected)="onProductSelect($event.option.value)"
+    >
+      <mat-option
+        *ngFor="let option of filteredOptions | async"
+        [value]="option"
+      >
+        {{ option.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <div class="checkboxes">
+    <mat-checkbox color="primary" (change)="onItemAddToTop()"
+      >Add items on top</mat-checkbox
+    >
+    <mat-checkbox color="primary">Group parts</mat-checkbox>
+  </div>
+</div>

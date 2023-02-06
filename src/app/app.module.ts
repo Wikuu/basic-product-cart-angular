@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 // ** Component Imports
 import { AppComponent } from './app.component';
+import { TableHeaderComponent } from './components/table-header/table-header.component';
 
 // ** Add Material Modules to an Array
 const MATERIAL_MODULES = [
@@ -35,7 +36,7 @@ const MATERIAL_MODULES = [
 ];
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, TableHeaderComponent],
   imports: [
     BrowserModule,
     ...MATERIAL_MODULES,
