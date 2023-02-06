@@ -1,0 +1,160 @@
+<div class="wrapper">
+  <mat-card style="width: 100%">
+    <mat-card-content>
+      <div class="header">
+        <mat-form-field class="search-box" appearance="fill">
+          <mat-label>Enter part code or description</mat-label>
+          <input
+            type="text"
+            aria-label="Enter part code or description"
+            matInput
+            [formControl]="productAutocompleteControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [displayWith]="displayProduct"
+            (optionSelected)="getSelectedProduct($event.option.value)"
+          >
+            <mat-option
+              *ngFor="let option of filteredOptions | async"
+              [value]="option"
+            >
+              {{ option.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <div class="checkboxes">
+          <mat-checkbox
+            color="primary"
+            [checked]="addItemToTop"
+            (change)="addItemToTopHandler()"
+            >Add items on top</mat-checkbox
+          >
+          <mat-checkbox color="primary">Group parts</mat-checkbox>
+        </div>
+      </div>
+
+      <table
+        mat-table
+        [dataSource]="cartProducts"
+        class="mat-elevation-z8 table"
+      >
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef>Qty</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="quantity-buttons">
+              <button
+                mat-icon-button
+                (click)="quantityHandler(element.id, 'decrease')"
+              >
+                <mat-icon fontIcon="keyboard_arrow_left"></mat-icon>
+              </button>
+              <p>{{ element.quantity }}</p>
+              <button
+                mat-icon-button
+                (click)="quantityHandler(element.id, 'increase')"
+              >
+                <mat-icon fontIcon="keyboard_arrow_right"></mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Item</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="hingeSide">
+          <th mat-header-cell *matHeaderCellDef>Hinge Side</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-chip-listbox
+              aria-label="Hinge Side Selection"
+              (change)="onHingeSideChange(element.id, $event.value)"
+              [value]="element.hingeSide"
+            >
+              <mat-chip-option *ngFor="let side of hingeSides">{{
+                side
+              }}</mat-chip-option>
+            </mat-chip-listbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="exposedSide">
+          <th mat-header-cell *matHeaderCellDef>Exposed Side</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-chip-listbox
+              aria-label="Exposed Side Selection"
+              (change)="onExposedSideChange(element.id, $event.value)"
+              [value]="element.exposedSide"
+            >
+              <mat-chip-option *ngFor="let side of exposedSides">{{
+                side
+              }}</mat-chip-option>
+            </mat-chip-listbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.price | currency }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="setupPrice">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              color="primary"
+              [checked]="includeSetup"
+              (change)="onIncludeSetupChange()"
+              ><mat-icon
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="build"
+              ></mat-icon
+            ></mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox
+              color="primary"
+              [checked]="element.setupAdded"
+              (change)="onElementSetupChange(element.id)"
+              >{{ element.setupPrice | currency }}</mat-checkbox
+            >
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef>Total</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.total | currency }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <div class="action-buttons">
+              <button mat-icon-button>
+                <mat-icon fontIcon="settings"></mat-icon>
+              </button>
+              <button mat-icon-button (click)="removeProduct(element.id)">
+                <mat-icon fontIcon="delete"></mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

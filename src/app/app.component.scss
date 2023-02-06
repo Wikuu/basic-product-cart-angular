@@ -1,0 +1,54 @@
+.wrapper {
+  width: 70%;
+  height: auto;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .header {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .search-box {
+      width: 50%;
+      height: auto;
+    }
+
+    .checkboxes {
+      width: 50%;
+      height: auto;
+      text-align: end;
+    }
+  }
+
+  .table {
+    margin-top: 20px;
+
+    .quantity-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  td,
+  th {
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+
+  .mat-sort-header-container {
+    justify-content: center !important;
+  }
+}
