@@ -1,2 +1,2 @@
 # basic-product-card-angular
-Basic Product - Cart App made with Angular.js
+Basic Product - Cart App made with Angular.js and Angular Material
